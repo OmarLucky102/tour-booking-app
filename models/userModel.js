@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    require: [true, 'Please tell us your name!!'],
+    required: [true, 'Please tell us your name!!'],
     trim: true,
     maxLength: [
       60,
@@ -31,7 +31,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide a password'],
     minLength: [8, 'Password must be at least 8 characters long'],
-    time: true,
+    trim: true,
+    select: false,
   },
   //just required input not for db
   passwordConfirm: {
@@ -51,12 +52,20 @@ userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
 
   //hash the password with cost of 13
-  this.password = await bcrypt.hash(this.password, 15);
+  this.password = await bcrypt.hash(this.password, 13);
 
   //delete passwordConfirm field
   this.passwordConfirm = undefined;
   next();
 });
+//instance method will be avilable on all documents of a certian collection
+//return true if two passwords are the same
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword,
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

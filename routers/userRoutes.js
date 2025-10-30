@@ -13,7 +13,7 @@ router.post('/login', authController.login);
 // prettier-ignore
 router
 .route('/')
-.get(userController.getAllUsers)
+.get(authController.protect,userController.getAllUsers)
 .post(userController.createUser);
 // prettier-ignore
 router

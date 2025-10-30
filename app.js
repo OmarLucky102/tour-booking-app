@@ -40,12 +40,8 @@ app.use(express.static(`${__dirname}/public`));
 //middleware to manipulate the req obj
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
+  // console.log(req.headers);
   next();
-});
-
-//for testing
-app.get('/ping', (req, res) => {
-  res.send('pong');
 });
 
 /// 3) ROUTES
