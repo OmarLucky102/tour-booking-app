@@ -43,16 +43,15 @@
 <summary>📁 Click to expand project tree</summary>
 
 ```
-d:/Learn JS/NodeJS/4-natours/
+natours/
 ├── .eslintrc.json
 ├── .gitignore
 ├── .prettierrc
+├── README.md
 ├── app.js
-├── config.env (ignored)
 ├── server.js
 ├── package.json
 ├── package-lock.json
-├── node_modules/ (ignored)
 │
 ├── controllers/
 │   ├── authController.js
@@ -78,9 +77,6 @@ d:/Learn JS/NodeJS/4-natours/
 │   └── email.js
 │
 ├── public/
-│   ├── overview.html
-│   ├── tour.html
-│   │
 │   ├── css/
 │   │   └── style.css
 │   │
@@ -91,98 +87,22 @@ d:/Learn JS/NodeJS/4-natours/
 │       ├── logo-green-small.png
 │       ├── logo-green.png
 │       ├── logo-white.png
-│       ├── pin.png
-│       │
-│       ├── tours/
-│       │   ├── tour-1-1.jpg
-│       │   ├── tour-1-2.jpg
-│       │   ├── tour-1-3.jpg
-│       │   ├── tour-1-cover.jpg
-│       │   ├── tour-2-1.jpg
-│       │   ├── tour-2-2.jpg
-│       │   ├── tour-2-3.jpg
-│       │   ├── tour-2-cover.jpg
-│       │   ├── tour-3-1.jpg
-│       │   ├── tour-3-2.jpg
-│       │   ├── tour-3-3.jpg
-│       │   ├── tour-3-cover.jpg
-│       │   ├── tour-4-1.jpg
-│       │   ├── tour-4-2.jpg
-│       │   ├── tour-4-3.jpg
-│       │   ├── tour-4-cover.jpg
-│       │   ├── tour-5-1.jpg
-│       │   ├── tour-5-2.jpg
-│       │   ├── tour-5-3.jpg
-│       │   ├── tour-5-cover.jpg
-│       │   ├── tour-6-1.jpg
-│       │   ├── tour-6-2.jpg
-│       │   ├── tour-6-3.jpg
-│       │   ├── tour-6-cover.jpg
-│       │   ├── tour-7-1.jpg
-│       │   ├── tour-7-2.jpg
-│       │   ├── tour-7-3.jpg
-│       │   ├── tour-7-cover.jpg
-│       │   ├── tour-8-1.jpg
-│       │   ├── tour-8-2.jpg
-│       │   ├── tour-8-3.jpg
-│       │   ├── tour-8-cover.jpg
-│       │   ├── tour-9-1.jpg
-│       │   ├── tour-9-2.jpg
-│       │   ├── tour-9-3.jpg
-│       │   └── tour-9-cover.jpg
-│       │
-│       └── users/
-│           ├── default.jpg
-│           ├── user-1.jpg
-│           ├── user-2.jpg
-│           ├── user-3.jpg
-│           ├── user-4.jpg
-│           ├── user-5.jpg
-│           ├── user-6.jpg
-│           ├── user-7.jpg
-│           ├── user-8.jpg
-│           ├── user-9.jpg
-│           ├── user-10.jpg
-│           ├── user-11.jpg
-│           ├── user-12.jpg
-│           ├── user-13.jpg
-│           ├── user-14.jpg
-│           ├── user-15.jpg
-│           ├── user-16.jpg
-│           ├── user-17.jpg
-│           ├── user-18.jpg
-│           ├── user-19.jpg
-│           └── user-20.jpg
+│       └── pin.png
 │
 └── dev-data/
     ├── data/
     │   ├── import-dev-data.js
     │   ├── reviews.json
     │   ├── tours.json
-    │   ├── tours-simple.json
-    │   ├── users.json
-    │   └── tour5.js
-    │
-    ├── img/
-    │   ├── aarav.jpg
-    │   ├── leo.jpg
-    │   ├── monica.jpg
-    │   ├── new-tour-1.jpg
-    │   ├── new-tour-2.jpg
-    │   ├── new-tour-3.jpg
-    │   └── new-tour-4.jpg
+    │   └── users.json
     │
     └── templates/
-        ├── accountTemplate.pug
+        ├── baseTemplate.pug
         ├── emailTemplate.pug
-        ├── errorTemplate.pug
-        ├── loginTemplate.pug
-        ├── tourCardTemplate.pug
-        └── tourTemplate.pug
+        └── errorTemplate.pug
 ```
 
 </details>
-
 **[INSERT PROJECT TREE HERE]**
 
 ### Directory Breakdown
