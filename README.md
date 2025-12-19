@@ -1302,21 +1302,6 @@ await Tour.aggregate([
 
 ---
 
-## API Response Codes
-
-| Code | Status                | Description                   |
-| ---- | --------------------- | ----------------------------- |
-| 200  | OK                    | Request successful            |
-| 201  | Created               | Resource created successfully |
-| 204  | No Content            | Successful deletion           |
-| 400  | Bad Request           | Invalid request data          |
-| 401  | Unauthorized          | Authentication required       |
-| 403  | Forbidden             | Insufficient permissions      |
-| 404  | Not Found             | Resource not found            |
-| 500  | Internal Server Error | Server error                  |
-
----
-
 ## Support & Contributing
 
 For questions, issues, or contributions:
