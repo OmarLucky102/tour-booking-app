@@ -164,14 +164,15 @@ natours/
 
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd 4-natours
+git clone https://github.com/OmarLucky102/tour-booking-app.git
+cd tour-booking-app
 
 # Install dependencies
 npm install
 
 # Configure environment variables
-# Create config.env file and add required variables (see below)
+# Copy the example below and create a config.env file in the root directory
+# Add your own values for DATABASE_PASSWORD, JWT_SECRET, and EMAIL credentials
 
 # Start development server
 npm start
