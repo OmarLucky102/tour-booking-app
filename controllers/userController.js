@@ -1,6 +1,18 @@
 //The handlers gose here
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
+const AppError = require('./../utils/appError');
+
+const filterObj = (obj, ...allowedFields) => {
+  //loop throw the object and For each element check if it's the allowed fields or not
+  //if allowed send it to object we will return at the end
+  const newObj = {};
+  //loop throw obj in js
+  Object.keys(obj).forEach((el) => {
+    if (allowedFields.includes(el)) newObj[el] = obj[el];
+  });
+  return newObj;
+};
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.find();
@@ -13,12 +25,49 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
     },
   });
 });
+//Updating the curently Authanticated User
+exports.updateMe = catchAsync(async (req, res, next) => {
+  //Create error if User POSTs Password Date
+  if (req.body.password || req.body.passwordConfirm) {
+    return next(
+      new AppError(
+        'This route is not for password Updates please user / updateMyPassword',
+        400,
+      ),
+    );
+  }
+  //2)Update User Dcoument
+  //can be Getting the User--->Update document--> Save it
+  // const user = await User.findById(req.user.id);
+  // user.name = 'omar';
+  // await user.save();
+  //filtered out unwanted field named that are not allowed to be upldated
+  const filteredBody = filterObj(req.body, 'name', 'email');
+  const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
+    new: true,
+    runValidators: true,
+  });
+  res.status(200).json({
+    status: 'sucess',
+    data: {
+      user: updatedUser,
+    },
+  });
+});
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'err',
     message: 'This route is not yet defined',
   });
 };
+
+exports.deleteMe = catchAsync(async (req, res, next) => {
+  await User.findByIdAndUpdate(req.user.id, { active: false }); //only for log in users
+  res.status(204).json({
+    status: 'Success',
+    data: null,
+  });
+});
 exports.getUser = (req, res) => {
   res.status(500).json({
     status: 'err',

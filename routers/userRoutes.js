@@ -9,6 +9,17 @@ const router = express.Router();
 router.post('/signup', authController.singup);
 router.post('/login', authController.login);
 
+//only recive email
+router.post('/forgotPassword', authController.forgotPassword);
+//recive token and new password
+router.patch('/resetPassword/:token', authController.resetPassword);
+router.patch(
+  '/updateMyPassword',
+  authController.protect,
+  authController.updatePassword,
+);
+router.patch('/updateMe', authController.protect, userController.updateMe);
+router.delete('/deleteMe', authController.protect, userController.deleteMe);
 //Follow the REST
 // prettier-ignore
 router

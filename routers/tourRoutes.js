@@ -18,14 +18,14 @@ router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
 //end point
 router
     .route('/')
-    .get(tourController.getAllTours)
+    .get(authController.protect,tourController.getAllTours)
     .post(tourController.createTour);
 // prettier-ignore
 router
     .route('/:id')
     .get(tourController.getTour)
     .patch(tourController.updateTour)
-    .delete(tourController.deleteTour);
+    .delete(authController.protect,authController.restrictTo('admin','lead-guide'),tourController.deleteTour);
 
 //we will export the router and then importe it in our main app
 module.exports = router;

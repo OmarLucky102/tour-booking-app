@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 const { default: slugify } = require('slugify');
 const slug = require('slugify');
+const User = require('./userModel');
 const validator = require('validator');
 // we use <new mongoose.Schema> to spacify a  schema for our data
 const tourSchema = new mongoose.Schema(
@@ -19,7 +20,12 @@ const tourSchema = new mongoose.Schema(
         10,
         'A tour must have a name must have more or equal to 40 characters',
       ],
-      validate: [validator.isAlpha, 'Tour name must only contain letters'],
+      validate: {
+        validator: function (val) {
+          return validator.isAlpha(val.replace(/\s/g, ''), 'en-US');
+        },
+        message: 'Tour name must only contain letters',
+      },
     },
     slug: {
       type: String,
@@ -79,6 +85,37 @@ const tourSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    startLocation: {
+      //GeoJSON geo specail data
+      type: {
+        type: String,
+        default: 'Point',
+        enum: ['Point'],
+      },
+      cordinates: [Number],
+      address: String,
+      description: String,
+    },
+    locations: [
+      {
+        type: {
+          type: String,
+          default: 'Point',
+          enum: ['Point'],
+        },
+        cordinates: [Number],
+        address: String,
+        description: String,
+        day: Number,
+      },
+    ],
+    //refrancing embedded doc
+    guides: [
+      {
+        type: mongoose.Schema.ObjectId, //mongo id
+        ref: 'User',
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
@@ -95,6 +132,15 @@ tourSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();
 });
+
+/*Empedding tours guide
+tourSchema.pre('save', async function (next) {
+  //arrray of all the users ids
+  const guidesPromises = this.guides.map(async (id) => await User.findById(id));
+  this.guides = await Promise.all(guidesPromises);
+  next();
+});
+*/
 
 // tourSchema.pre('save', function (next) {
 //   console.log('Will save Doc ....... ');
@@ -114,12 +160,18 @@ tourSchema.pre(/^find/, function (next) {
   this.start = Date.now();
   next();
 });
+tourSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'guides',
+    select: 'name email role',
+  });
+  next();
+});
 tourSchema.post(/^find/, function (docs, next) {
   console.log(`Query took ${Date.now() - this.start} milliseconds`);
   // console.log(docs);
   next();
 });
-
 //AGGREGATION MIDDLEWARE
 tourSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { secrateTour: { $ne: true } } });
