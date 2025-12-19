@@ -103,7 +103,6 @@ natours/
 ```
 
 </details>
-**[INSERT PROJECT TREE HERE]**
 
 ### Directory Breakdown
 
