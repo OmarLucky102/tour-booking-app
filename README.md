@@ -39,6 +39,8 @@
 ---
 
 ## Project Structure
+<details>
+<summary>📁 Click to expand project tree</summary>
 
 d:/Learn JS/NodeJS/4-natours/
 ├── .eslintrc.json
@@ -164,6 +166,9 @@ d:/Learn JS/NodeJS/4-natours/
 ├── appError.js
 ├── catchAsync.js
 └── email.js
+
+
+</details>
 
 **[INSERT PROJECT TREE HERE]**
 
