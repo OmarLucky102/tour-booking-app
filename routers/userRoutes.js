@@ -34,9 +34,5 @@ router
 .patch(userController.updateUser)
 .delete(userController.deleteUser);
 
-//refranceing
-//post /tour/23fad4/reviews
-//get /tour/23fad4/reviews
-//get /tour/23fad4/reviews/34fse
 
 module.exports = router;

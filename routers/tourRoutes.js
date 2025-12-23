@@ -5,6 +5,8 @@ const tourController = require('../controllers/tourController');
 // can also use is like this and use it directly
 //const { getAllTours } = require('../controllers/tourController');
 const authController = require('./../controllers/authController');
+const reviewController = require('./../controllers/reviewController');
+
 const router = express.Router();
 
 // router.param('id', tourController.checkID);
@@ -27,5 +29,16 @@ router
     .patch(tourController.updateTour)
     .delete(authController.protect,authController.restrictTo('admin','lead-guide'),tourController.deleteTour);
 
+//refranceing
+//post /tour/23fad4/reviews
+//get /tour/23fad4/reviews
+//get /tour/23fad4/reviews/34fse
+router
+  .route('/:tourId/reviews')
+  .post(
+    authController.protect,
+    authController.restrictTo('user'),
+    reviewController.createReview,
+  );
 //we will export the router and then importe it in our main app
 module.exports = router;
