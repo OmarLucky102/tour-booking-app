@@ -125,6 +125,13 @@ const tourSchema = new mongoose.Schema(
 tourSchema.virtual('durationWeek').get(function () {
   return this.duration / 7;
 });
+
+//Virtual Populate
+tourSchema.virtual('reviews', {
+  ref: 'Review', //links to the Review model
+  localField: '_id', //Tour’s _id
+  foreignField: 'tour', //matches Review’s tour field
+});
 //DOCUMENT MIDDLEWARE runs befor .save(), .create()
 //findByIdandUpdata will not also triger it
 tourSchema.pre('save', function (next) {

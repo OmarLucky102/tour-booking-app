@@ -1,6 +1,7 @@
 const express = require('express');
 const userController = require('../controllers/userController');
 const authController = require('./../controllers/authController');
+const reviewController = require('./../controllers/reviewController');
 
 const router = express.Router();
 
@@ -32,5 +33,10 @@ router
 .get(userController.getUser)
 .patch(userController.updateUser)
 .delete(userController.deleteUser);
+
+//refranceing
+//post /tour/23fad4/reviews
+//get /tour/23fad4/reviews
+//get /tour/23fad4/reviews/34fse
 
 module.exports = router;

@@ -1,5 +1,7 @@
 const Review = require('./../models/reviewModel');
 const catchAsync = require('./../utils/catchAsync');
+const User = require('./../models/userModel');
+const Tour = require('./../models/tourModel');
 
 exports.getAllReviews = catchAsync(async (req, res, next) => {
   const reviews = await Review.find();
