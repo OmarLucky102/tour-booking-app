@@ -39,133 +39,70 @@
 ---
 
 ## Project Structure
+<details>
+<summary>📁 Click to expand project tree</summary>
 
-d:/Learn JS/NodeJS/4-natours/
+```
+natours/
 ├── .eslintrc.json
 ├── .gitignore
 ├── .prettierrc
+├── README.md
 ├── app.js
-├─ config.env (ignored)
-├── controllers/
-│ ├── authController.js
-│ ├── errorController.js
-│ ├── reviewController.js
-│ ├── tourController.js
-│ └── userController.js
-├── dev-data/
-│ ├── data/
-│ │ ├── import-dev-data.js
-│ │ ├── reviews.json
-│ │ ├── tour5.js
-│ │ ├── tours-simple.json
-│ │ ├── tours.json
-│ │ └── users.json
-│ ├── img/
-│ │ ├── aarav.jpg
-│ │ ├── leo.jpg
-│ │ ├── monica.jpg
-│ │ ├── new-tour-1.jpg
-│ │ ├── new-tour-2.jpg
-│ │ ├── new-tour-3.jpg
-│ │ └── new-tour-4.jpg
-│ └── templates/
-│ ├── accountTemplate.pug
-│ ├── emailTemplate.pug
-│ ├── errorTemplate.pug
-│ ├── loginTemplate.pug
-│ ├── tourCardTemplate.pug
-│ └── tourTemplate.pug
-├── models/
-│ ├── reviewModel.js
-│ ├── tourModel.js
-│ └── userModel.js
-├─- node_modules/ (ignored)
-├── package-lock.json
-├── package.json
-├── public/
-│ ├── css/
-│ │ └── style.css
-│ ├── img/
-│ │ ├── favicon.png
-│ │ ├── icons.svg
-│ │ ├── logo-green-round.png
-│ │ ├── logo-green-small.png
-│ │ ├── logo-green.png
-│ │ ├── logo-white.png
-│ │ ├── pin.png
-│ │ ├── tours/
-│ │ │ ├── tour-1-1.jpg
-│ │ │ ├── tour-1-2.jpg
-│ │ │ ├── tour-1-3.jpg
-│ │ │ ├── tour-1-cover.jpg
-│ │ │ ├── tour-2-1.jpg
-│ │ │ ├── tour-2-2.jpg
-│ │ │ ├── tour-2-3.jpg
-│ │ │ ├── tour-2-cover.jpg
-│ │ │ ├── tour-3-1.jpg
-│ │ │ ├── tour-3-2.jpg
-│ │ │ ├── tour-3-3.jpg
-│ │ │ ├── tour-3-cover.jpg
-│ │ │ ├── tour-4-1.jpg
-│ │ │ ├── tour-4-2.jpg
-│ │ │ ├── tour-4-3.jpg
-│ │ │ ├── tour-4-cover.jpg
-│ │ │ ├── tour-5-1.jpg
-│ │ │ ├── tour-5-2.jpg
-│ │ │ ├── tour-5-3.jpg
-│ │ │ ├── tour-5-cover.jpg
-│ │ │ ├── tour-6-1.jpg
-│ │ │ ├── tour-6-2.jpg
-│ │ │ ├── tour-6-3.jpg
-│ │ │ ├── tour-6-cover.jpg
-│ │ │ ├── tour-7-1.jpg
-│ │ │ ├── tour-7-2.jpg
-│ │ │ ├── tour-7-3.jpg
-│ │ │ ├── tour-7-cover.jpg
-│ │ │ ├── tour-8-1.jpg
-│ │ │ ├── tour-8-2.jpg
-│ │ │ ├── tour-8-3.jpg
-│ │ │ ├── tour-8-cover.jpg
-│ │ │ ├── tour-9-1.jpg
-│ │ │ ├── tour-9-2.jpg
-│ │ │ ├── tour-9-3.jpg
-│ │ │ └── tour-9-cover.jpg
-│ │ └── users/
-│ │ ├── default.jpg
-│ │ ├── user-1.jpg
-│ │ ├── user-10.jpg
-│ │ ├── user-11.jpg
-│ │ ├── user-12.jpg
-│ │ ├── user-13.jpg
-│ │ ├── user-14.jpg
-│ │ ├── user-15.jpg
-│ │ ├── user-16.jpg
-│ │ ├── user-17.jpg
-│ │ ├── user-18.jpg
-│ │ ├── user-19.jpg
-│ │ ├── user-2.jpg
-│ │ ├── user-20.jpg
-│ │ ├── user-3.jpg
-│ │ ├── user-4.jpg
-│ │ ├── user-5.jpg
-│ │ ├── user-6.jpg
-│ │ ├── user-7.jpg
-│ │ ├── user-8.jpg
-│ │ └── user-9.jpg
-│ ├── overview.html
-│ └── tour.html
-├── routers/
-│ ├── reviewRoutes.js
-│ ├── tourRoutes.js
-│ └── userRoutes.js
 ├── server.js
-└── utils/
-├── apiFeatures.js
-├── appError.js
-├── catchAsync.js
-└── email.js
+├── package.json
+├── package-lock.json
+│
+├── controllers/
+│   ├── authController.js
+│   ├── errorController.js
+│   ├── reviewController.js
+│   ├── tourController.js
+│   └── userController.js
+│
+├── models/
+│   ├── reviewModel.js
+│   ├── tourModel.js
+│   └── userModel.js
+│
+├── routes/
+│   ├── reviewRoutes.js
+│   ├── tourRoutes.js
+│   └── userRoutes.js
+│
+├── utils/
+│   ├── apiFeatures.js
+│   ├── appError.js
+│   ├── catchAsync.js
+│   └── email.js
+│
+├── public/
+│   ├── css/
+│   │   └── style.css
+│   │
+│   └── img/
+│       ├── favicon.png
+│       ├── icons.svg
+│       ├── logo-green-round.png
+│       ├── logo-green-small.png
+│       ├── logo-green.png
+│       ├── logo-white.png
+│       └── pin.png
+│
+└── dev-data/
+    ├── data/
+    │   ├── import-dev-data.js
+    │   ├── reviews.json
+    │   ├── tours.json
+    │   └── users.json
+    │
+    └── templates/
+        ├── baseTemplate.pug
+        ├── emailTemplate.pug
+        └── errorTemplate.pug
+```
 
-**[INSERT PROJECT TREE HERE]**
+</details>
 
 ### Directory Breakdown
 
@@ -227,14 +164,15 @@ d:/Learn JS/NodeJS/4-natours/
 
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd 4-natours
+git clone https://github.com/OmarLucky102/tour-booking-app.git
+cd tour-booking-app
 
 # Install dependencies
 npm install
 
 # Configure environment variables
-# Create config.env file and add required variables (see below)
+# Copy the example below and create a config.env file in the root directory
+# Add your own values for DATABASE_PASSWORD, JWT_SECRET, and EMAIL credentials
 
 # Start development server
 npm start
@@ -1361,21 +1299,6 @@ await Tour.aggregate([
 - Implement social authentication
 - Add tour availability calendar
 - Create mobile application
-
----
-
-## API Response Codes
-
-| Code | Status                | Description                   |
-| ---- | --------------------- | ----------------------------- |
-| 200  | OK                    | Request successful            |
-| 201  | Created               | Resource created successfully |
-| 204  | No Content            | Successful deletion           |
-| 400  | Bad Request           | Invalid request data          |
-| 401  | Unauthorized          | Authentication required       |
-| 403  | Forbidden             | Insufficient permissions      |
-| 404  | Not Found             | Resource not found            |
-| 500  | Internal Server Error | Server error                  |
 
 ---
 
