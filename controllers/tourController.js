@@ -1,9 +1,8 @@
 //for CRUD operations
 const { Query } = require('mongoose');
 const Tour = require('./../models/tourModel');
-const APIFeature = require('../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/appError');
+// const AppError = require('./../utils/appError');
 const factory = require('./../controllers/handlerFactory');
 
 exports.aliasTopTours = (req, res, next) => {
@@ -47,27 +46,6 @@ exports.checkBody = (req, res, next) => {
 */
 
 //export everything from this file
-exports.getAllTours = catchAsync(async (req, res, next) => {
-  console.log(req.query);
-  //EXECUTE QUERY
-  //Instance of object
-  const features = new APIFeature(Tour.find(), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .Pagination();
-
-  const tours = await features.query;
-
-  //SEND RESPONSE
-  res.status(200).json({
-    status: 'success',
-    result: tours.length,
-    data: {
-      tours,
-    },
-  });
-});
 exports.getTourStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([
     {
@@ -148,46 +126,9 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findById(req.params.id).populate('reviews');
+exports.getAllTours = factory.getAll(Tour);
 
-  if (!tour) {
-    return next(new AppError('No Tour Found With That ID', 404));
-  }
-
-  //Tour.findOne({_id:req.params.id}) //Work the same
-  res.status(200).json({
-    status: 'success',
-    data: {
-      tour,
-    },
-  });
-  fff;
-});
-/*
-// POST a new tour
-exports.createTour = (req, res) => {
-  const newId = tours[tours.length - 1].id + 1;
-  // eslint-disable-next-line prefer-object-spread
-  const newTour = Object.assign({ id: newId }, req.body);
-
-  tours.push(newTour);
-
-  fs.writeFile(
-    `${__dirname}/dev-data/data/tours-simple.json`,
-    JSON.stringify(tours),
-    // eslint-disable-next-line no-unused-vars
-    (err) => {
-      res.status(201).json({
-        status: 'success',
-        data: {
-          tour: newTour,
-        },
-      });
-    },
-  );
-};*/
-//pass async function as paramiter
+exports.getTour = factory.getOne(Tour, { path: 'reviews' });
 
 exports.createTour = factory.createOne(Tour);
 // PATCH (update) a tour
