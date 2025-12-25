@@ -4,7 +4,11 @@ const User = require('./../models/userModel');
 const Tour = require('./../models/tourModel');
 
 exports.getAllReviews = catchAsync(async (req, res, next) => {
-  const reviews = await Review.find();
+  //check if there are a tour id if = ok search for reviews where the tour = tourid
+  let filter = {};
+  if (req.params.tourId) filter = { tour: req.params.tourId };
+
+  const reviews = await Review.find(filter);
 
   res.status(200).json({
     status: 'success',
