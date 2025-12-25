@@ -15,6 +15,11 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
+exports.getMe = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
+
 //Updating the curently Authanticated User
 exports.updateMe = catchAsync(async (req, res, next) => {
   //Create error if User POSTs Password Date
