@@ -19,18 +19,24 @@ router
   .get(tourController.aliasTopTours, tourController.getAllTours);
 
 router.route('/tour-status').get(tourController.getTourStats);
-router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
+router
+  .route('/monthly-plan/:year')
+  .get(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide', 'guide'),
+    tourController.getMonthlyPlan,
+  );
 // prettier-ignore
 //end point
 router
     .route('/')
-    .get(authController.protect,tourController.getAllTours)
-    .post(tourController.createTour);
+    .get(tourController.getAllTours)
+    .post(authController.protect,authController.restrictTo("admin","lead-guide"),tourController.createTour);
 // prettier-ignore
 router
     .route('/:id')
     .get(tourController.getTour)
-    .patch(tourController.updateTour)
+    .patch(authController.protect,authController.restrictTo("admin","lead-guide"),tourController.updateTour)
     .delete(authController.protect,authController.restrictTo('admin','lead-guide'),tourController.deleteTour);
 
 //we will export the router and then importe it in our main app
