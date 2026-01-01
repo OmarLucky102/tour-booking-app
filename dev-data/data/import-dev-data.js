@@ -3,6 +3,8 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const Tour = require('./../../models/tourModel');
+const User = require('./../../models/userModel');
+const Review = require('./../../models/reviewModel');
 dotenv.config({ path: './config.env' });
 
 const DB = process.env.DATABASE.replace(
@@ -10,39 +12,61 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD,
 );
 
-mongoose.connect(DB).then(() => console.log('DB connection successful!'));
-
 //Read JSON File
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`, 'utf-8'));
+const users = JSON.parse(fs.readFileSync(`${__dirname}/users.json`, 'utf-8'));
+const reviews = JSON.parse(
+  fs.readFileSync(`${__dirname}/reviews.json`, 'utf-8'),
+);
+
+//DELATE ALL DATA FORM COLLECTION
+
+const deleteData = async () => {
+  try {
+    await Tour.deleteMany();
+    await User.deleteMany();
+    await Review.deleteMany();
+    console.log('Data Successfully Deleted');
+    process.exit();
+  } catch (err) {
+    console.log(err);
+    process.exit(1);
+  }
+};
 
 //Import Data Into DB
 const importData = async () => {
   try {
     await Tour.create(tours);
+    await User.create(users, { validateBeforeSave: false });
+    await Review.create(reviews);
     console.log('Data Successfully Loaded');
     process.exit();
   } catch (err) {
     console.log(err);
+    process.exit(1);
   }
 };
 
-//DELATE ALL DATA FORM COLLECTION
-const deleteData = async () => {
+const runScript = async () => {
   try {
-    await Tour.deleteMany();
-    console.log('Data Successfully Deleted');
-    process.exit();
+    await mongoose.connect(DB);
+    console.log('DB connection successful!');
+    if (process.argv[2] === '--import') {
+      importData();
+    } else if (process.argv[2] === '--delete') {
+      deleteData();
+    } else {
+      console.log("Fail only '__import' or '__delete' Data ");
+      process.exit();
+    }
   } catch (err) {
     console.log(err);
+    process.exit(1);
   }
 };
 
-if (process.argv[2] === '--import') {
-  importData();
-} else if (process.argv[2] === '--delete') {
-  deleteData();
-} else {
-  console.log("Fail only '__import' or '__delete' Data ");
-}
-//node dev-data/data/import-dev-data.js --import
-//node dev-data/data/import-dev-data.js --delete
+runScript();
+
+// node dev-data/data/import-dev-data.js --delete
+// node dev-data/data/import-dev-data.js --import
