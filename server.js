@@ -26,21 +26,6 @@ mongoose
   .then(() => console.log('DB connection successful!'));
 // .catch((err) => console.log('ERROR'));
 
-/*For testing 
-//Document forom the Tour model
-const testTour = new Tour({
-  name: 'The Park Camper',
-  // rating: 4.7,
-  price: 999,
-});
-testTour
-  .save()
-  .then((doc) => {
-    console.log(doc);
-  })
-  .catch((err) => {
-    console.log('ERROR 💥', err);
-  });*/
 //current env
 console.log(app.get('env'));
 // console.log(process.env);

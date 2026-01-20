@@ -1,4 +1,4 @@
-//use this file to configre express application
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
@@ -16,6 +16,13 @@ const reviewRouter = require('./routers/reviewRoutes');
 // GLOBAL MIDDLEWARES
 // 1)Set security HTTP headers
 const app = express();
+
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
+//serve static files
+app.use(express.static(path.join(__dirname, 'puplic')));
+
 app.use(helmet());
 
 //Development logging
@@ -56,8 +63,6 @@ app.use(
 );
 
 app.set('query parser', 'extended');
-//serve static files
-app.use(express.static(`${__dirname}/public`));
 
 //middleware to manipulate the req obj (testing)
 app.use((req, res, next) => {
@@ -70,11 +75,15 @@ app.use((req, res, next) => {
 //app.use(route<where we gonna use middleware>,tourRouter<middleware> )
 //so we create a sub application
 //This is called Mounting the routers
+
+app.get('/', (req, res) => {
+  res.status(200).render('base');
+});
+
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.all('*', (req, res, next) => {
-  // ✅ Better way: create an Error object
   next(new AppError(`Can't find ${req.originalUrl} on this server!!⛔`, 404));
 });
 app.use(globelErrorHandler);
