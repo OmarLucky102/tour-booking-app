@@ -21,7 +21,7 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 //serve static files
-app.use(express.static(path.join(__dirname, 'puplic')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(helmet());
 
@@ -77,7 +77,11 @@ app.use((req, res, next) => {
 //This is called Mounting the routers
 
 app.get('/', (req, res) => {
-  res.status(200).render('base');
+  res.status(200).render('base', {
+    //called locals in the pug file
+    tour: 'The Forest Hiker',
+    user: 'Omar',
+  });
 });
 
 app.use('/api/v1/tours', tourRouter);
