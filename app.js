@@ -81,6 +81,19 @@ app.get('/', (req, res) => {
     //called locals in the pug file
     tour: 'The Forest Hiker',
     user: 'Omar',
+    title: 'Exciting tours for adventurous people',
+  });
+});
+
+app.get('/overview', (req, res) => {
+  res.status(200).render('overview', {
+    title: 'All Tours',
+  });
+});
+
+app.get('/tour', (req, res) => {
+  res.status(200).render('tour', {
+    title: 'The Forest Hiker Tour',
   });
 });
 
