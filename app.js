@@ -13,6 +13,7 @@ const tourRouter = require('./routers/tourRoutes');
 //we export the router it self
 const userRouter = require('./routers/userRoutes');
 const reviewRouter = require('./routers/reviewRoutes');
+const viewRoutes = require('./routers/viewRoutes');
 // GLOBAL MIDDLEWARES
 // 1)Set security HTTP headers
 const app = express();
@@ -76,27 +77,7 @@ app.use((req, res, next) => {
 //so we create a sub application
 //This is called Mounting the routers
 
-app.get('/', (req, res) => {
-  res.status(200).render('base', {
-    //called locals in the pug file
-    tour: 'The Forest Hiker',
-    user: 'Omar',
-    title: 'Exciting tours for adventurous people',
-  });
-});
-
-app.get('/overview', (req, res) => {
-  res.status(200).render('overview', {
-    title: 'All Tours',
-  });
-});
-
-app.get('/tour', (req, res) => {
-  res.status(200).render('tour', {
-    title: 'The Forest Hiker Tour',
-  });
-});
-
+app.use('/', viewRoutes);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
