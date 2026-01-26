@@ -3,7 +3,6 @@ const viewsController = require('./../controllers/viewsController');
 
 const router = express.Router();
 
-
 /*just for testing
 // router.get('/', (req, res) => {
 //   res.status(200).render('base', {
@@ -14,6 +13,7 @@ const router = express.Router();
 //   });
 // });
 */
+
 router.get('/', viewsController.getOverview);
 router.get('/tour', viewsController.getTour);
 
