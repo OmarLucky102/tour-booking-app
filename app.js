@@ -24,7 +24,31 @@ app.set('views', path.join(__dirname, 'views'));
 //serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'", 'https://*.mapbox.com', 'https://*.stripe.com'],
+        scriptSrc: ["'self'", 'https://api.mapbox.com', 'blob:'],
+        frameSrc: ["'self'", 'https://*.mapbox.com'],
+        workerSrc: ["'self'", 'blob:'],
+        connectSrc: [
+          "'self'",
+          'https://*.mapbox.com',
+          'https://events.mapbox.com',
+        ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          'https://api.mapbox.com',
+          'https://fonts.googleapis.com',
+        ],
+        fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+        imgSrc: ["'self'", 'data:', 'blob:'],
+      },
+    },
+  }),
+);
 
 //Development logging
 if (process.env.NODE_ENV === 'development') {
