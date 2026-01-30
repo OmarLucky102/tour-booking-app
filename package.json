@@ -11,7 +11,9 @@
   "author": "Omar AbdElaty",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.13.4",
     "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.0",
     "express": "^4.21.2",
     "express-mongo-sanitize": "^2.2.0",
@@ -32,8 +34,8 @@
   "devDependencies": {
     "@prettier/plugin-pug": "^3.4.2",
     "cross-env": "^7.0.3",
-    "eslint": "^8.57.1",
-    "eslint-config-airbnb": "^19.0.4",
+    "eslint": "^9.39.2",
+    "eslint-config-airbnb": "^5.0.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",

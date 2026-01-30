@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const cookieParser = require('cookie-parser');
 
 const AppError = require('./utils/appError');
 const globelErrorHandler = require('./controllers/errorController');
@@ -29,7 +30,12 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'", 'https://*.mapbox.com', 'https://*.stripe.com'],
-        scriptSrc: ["'self'", 'https://api.mapbox.com', 'blob:'],
+        scriptSrc: [
+          "'self'",
+          'https://api.mapbox.com',
+          'https://cdn.jsdelivr.net',
+          'blob:',
+        ],
         frameSrc: ["'self'", 'https://*.mapbox.com'],
         workerSrc: ["'self'", 'blob:'],
         connectSrc: [
@@ -68,6 +74,9 @@ app.use('/api', limiter);
 // Body parser, reading data form body into req.body
 app.use(express.json({ limit: '10kb' }));
 
+//cookie-parser parses the data form cookie
+app.use(cookieParser());
+
 // Data Sanitization against NoSQL query injection
 app.use(mongoSanitize());
 // Data Sanitization against XXS
@@ -92,7 +101,7 @@ app.set('query parser', 'extended');
 //middleware to manipulate the req obj (testing)
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  // console.log(req.headers);
+  console.log(req.cookies);
   next();
 });
 
