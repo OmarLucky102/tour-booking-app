@@ -2,11 +2,12 @@
   "name": "4-natours",
   "version": "1.0.0",
   "description": "learn node, express and mangoDB",
-  "main": "app.js",
   "scripts": {
     "start": "nodemon server.js",
     "start:prod": "cross-env NODE_ENV=production nodemon server.js",
-    "debug": "ndb server.js"
+    "debug": "ndb server.js",
+    "watch:js": "parcel watch public/js/index.js --dist-dir public/js/dist",
+    "build:js": "parcel build public/js/index.js --dist-dir public/js/dist"
   },
   "author": "Omar AbdElaty",
   "license": "ISC",
@@ -43,6 +44,7 @@
     "eslint-plugin-prettier": "^5.5.3",
     "eslint-plugin-react": "^7.37.5",
     "ndb": "^0.2.4",
+    "parcel": "^2.16.3",
     "prettier": "^3.6.2"
   }
 }
