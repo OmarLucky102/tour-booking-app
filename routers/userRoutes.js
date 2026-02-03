@@ -9,6 +9,7 @@ const router = express.Router();
 //Can't get data from sighup or patch or update it only post data
 router.post('/signup', authController.singup);
 router.post('/login', authController.login);
+router.get('/logout', authController.logout);
 
 //only recive email
 router.post('/forgotPassword', authController.forgotPassword);
