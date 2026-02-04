@@ -133,9 +133,9 @@ exports.protect = catchAsync(async (req, res, next) => {
     process.env.JWT_SECRET,
   );
   // 3) Check if user still exists
-  const freshUser = await User.findById(decoded.id);
+  const currentUser = await User.findById(decoded.id);
 
-  if (!freshUser) {
+  if (!currentUser) {
     return next(
       new AppError(
         'The uesr belonging to the token dowes no longer exist',
@@ -145,14 +145,16 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   // 4) Check if user changed password after the token was issued
-  if (freshUser.changedPasswordAfter(decoded.iat)) {
+  if (currentUser.changedPasswordAfter(decoded.iat)) {
     return next(
       new AppError('User recently Changed Password! Please login again', 401),
     );
   }
 
   //GRANT ACCESS TO PROTECTED ROUTE
-  req.user = freshUser;
+  req.user = currentUser;
+  res.locals.user = currentUser;
+
   next();
 });
 
