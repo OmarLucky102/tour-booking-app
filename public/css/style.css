@@ -1,3 +1,6 @@
+/*
+  VARIABLES
+*/
 :root {
   --section-rotate: 9vw;
 }
@@ -12,6 +15,9 @@
   color: #fff;
 }
 
+/*
+  RESET
+*/
 *,
 *::before,
 *::after {
@@ -27,6 +33,9 @@ html {
   box-sizing: border-box;
 }
 
+/*
+  BASE STYLES
+*/
 body {
   line-height: 1.6;
   font-weight: 300;
@@ -43,6 +52,9 @@ body {
   flex-direction: column;
 }
 
+/*
+  LAYOUT & UTILITIES
+*/
 .main {
   background-color: #f7f7f7;
   padding: 8rem 6rem;
@@ -86,6 +98,9 @@ body {
   background-color: #e0e0e0;
 }
 
+/*
+  ALERTS
+*/
 .alert {
   position: fixed;
   top: 2rem;
@@ -110,6 +125,9 @@ body {
   background-color: #eb4d4b;
 }
 
+/*
+  TYPOGRAPHY
+*/
 .heading-secondary {
   font-size: 2.25rem;
   text-transform: uppercase;
@@ -183,6 +201,9 @@ body {
   z-index: 10;
 }
 
+/*
+  BUTTONS
+*/
 .btn,
 .btn:link,
 .btn:visited {
@@ -298,6 +319,9 @@ body {
   outline-offset: 3px;
 }
 
+/*
+  HEADER
+*/
 .header {
   background-color: #444;
   padding: 0 5rem;
@@ -334,6 +358,9 @@ body {
   }
 }
 
+/*
+  SECTION HEADER (HERO)
+*/
 .section-header {
   position: relative;
   height: 38vw;
@@ -426,6 +453,9 @@ body {
   filter: drop-shadow(0 0.75rem 0.5rem rgba(0, 0, 0, 0.25));
 }
 
+/*
+  SECTION DESCRIPTION
+*/
 .section-description {
   background-color: #fcfcfc;
   margin-top: calc(0px - var(--section-rotate));
@@ -452,6 +482,9 @@ body {
   margin-bottom: 2rem;
 }
 
+/*
+  SECTION FEATURES / OVERVIEW
+*/
 .overview-box {
   background-color: #f7f7f7;
   display: -webkit-box;
@@ -500,6 +533,9 @@ body {
   margin-right: 1.25rem;
 }
 
+/*
+  SECTION PICTURES
+*/
 .section-pictures {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -538,6 +574,9 @@ body {
   padding-bottom: 27%;
 }
 
+/*
+  SECTION MAP
+*/
 .section-map {
   position: relative;
   height: 65rem;
@@ -572,6 +611,9 @@ body {
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15) !important;
 }
 
+/*
+  SECTION REVIEWS
+*/
 .section-reviews {
   margin-top: calc(0px - var(--section-rotate));
   padding: calc(5rem + var(--section-rotate)) 0;
@@ -675,6 +717,9 @@ body {
   fill: #bbb;
 }
 
+/*
+  SECTION CTA
+*/
 .section-cta {
   margin-top: calc(0px - var(--section-rotate));
   padding: 3rem;
@@ -755,6 +800,9 @@ body {
   font-weight: 400;
 }
 
+/*
+  USER VIEW
+*/
 .user-view {
   background-color: #fff;
   max-width: 120rem;
@@ -794,6 +842,9 @@ body {
   padding: 0 8rem;
 }
 
+/*
+  FOOTER
+*/
 .footer {
   background-color: #f7f7f7;
   padding: 6rem 4rem 3rem 4rem;
@@ -854,6 +905,9 @@ body {
   }
 }
 
+/*
+  NAVIGATION
+*/
 .nav {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1011,6 +1065,9 @@ body {
   margin-right: 1rem;
 }
 
+/*
+  SIDEBAR NAVIGATION
+*/
 .side-nav {
   list-style: none;
 }
@@ -1057,6 +1114,9 @@ body {
   margin-right: 2rem;
 }
 
+/*
+  ADMIN NAVIGATION
+*/
 .admin-nav {
   margin-top: 5.5rem;
 }
@@ -1069,6 +1129,9 @@ body {
   border-bottom: 1px solid currentColor;
 }
 
+/*
+  CARD
+*/
 .card-container {
   max-width: 120rem;
   margin: 0 auto;
@@ -1189,6 +1252,9 @@ body {
   align-self: center;
 }
 
+/*
+  ERROR PAGE
+*/
 .error {
   position: absolute;
   top: 35%;
@@ -1221,6 +1287,9 @@ body {
   margin: 0 auto;
 }
 
+/*
+  LOGIN FORM
+*/
 .login-form {
   margin: 0 auto;
   max-width: 55rem;
