@@ -1391,3 +1391,36 @@ body {
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
 }
+
+/*
+  LOADING SPINNER
+*/
+.btn--loading {
+  color: transparent !important;
+  pointer-events: none;
+  position: relative;
+}
+
+.btn--loading::after {
+  content: '';
+  position: absolute;
+  width: 1.5rem;
+  height: 1.5rem;
+  top: 50%;
+  left: 50%;
+  margin-top: -0.75rem;
+  margin-left: -0.75rem;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  border-top-color: transparent;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
