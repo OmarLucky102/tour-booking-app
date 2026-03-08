@@ -1,4 +1,5 @@
 const path = require('path');
+const crypto = require('crypto');
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
@@ -26,7 +27,13 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'dist')));
 
-app.use(
+// Generate a unique nonce per request (used in CSP to allow inline scripts)
+app.use((req, res, next) => {
+  res.locals.nonce = crypto.randomBytes(16).toString('hex');
+  next();
+});
+
+app.use((req, res, next) => {
   helmet({
     contentSecurityPolicy: {
       directives: {
@@ -36,7 +43,7 @@ app.use(
           'https://api.mapbox.com',
           'https://cdn.jsdelivr.net',
           'blob:',
-          "'unsafe-inline'",
+          `'nonce-${res.locals.nonce}'`,
         ],
         frameSrc: ["'self'", 'https://*.mapbox.com'],
         workerSrc: ["'self'", 'blob:'],
@@ -57,8 +64,8 @@ app.use(
         imgSrc: ["'self'", 'data:', 'blob:', 'https://*.mapbox.com'],
       },
     },
-  }),
-);
+  })(req, res, next);
+});
 
 //Development logging
 if (process.env.NODE_ENV === 'development') {
@@ -67,13 +74,17 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 
 // Limit req from same API
-const limiter = rateLimit({
-  //Allow 100 req from the same ip in one houer
-  max: 300,
-  windowMs: 60 * 60 * 1000,
-  message: 'Too many reqrests from this IP, please try again in an houre!',
-});
+const limiter = rateLimit({ max: 100, windowMs: 60 * 60 * 1000 });
 app.use('/api', limiter);
+
+// Strict limiter for login/signup (6 attempts per 15 min)
+const authLimiter = rateLimit({
+  max: 6,
+  windowMs: 15 * 60 * 1000,
+  message: 'Too many login attempts, please try again in 15 minutes',
+});
+app.use('/api/v1/users/login', authLimiter);
+app.use('/api/v1/users/signup', authLimiter);
 
 // Body parser, reading data form body into req.body
 app.use(express.json({ limit: '10kb' }));
@@ -108,7 +119,7 @@ app.set('query parser', 'extended');
 //middleware to manipulate the req obj (testing)
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  console.log(req.cookies);
+  // console.log(req.cookies);
   next();
 });
 

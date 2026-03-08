@@ -25,6 +25,7 @@ const createSendToken = (user, statusCode, res) => {
     ),
     secure: true, //Encrypted connection HTTPs
     httpOnly: true, //xss Cookie con't be accesed or modified any way in the browser
+    sameSite: 'strict',
   };
   if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
   res.cookie('jwt', token, cookieOptions);
@@ -45,7 +46,6 @@ exports.singup = catchAsync(async (req, res, next) => {
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
-    role: req.body.role,
     // passwordChangedAt: req.body.passwordChangedAt,
   });
   createSendToken(newUser, 201, res);
@@ -73,7 +73,7 @@ exports.isLoggedIn = async (req, res, next) => {
   //let token;
   if (req.cookies.jwt) {
     try {
-      token = req.cookies.jwt;
+      const token = req.cookies.jwt;
 
       // 2) verify the token from the cookie
       const decoded = await util.promisify(jwt.verify)(
@@ -123,7 +123,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   if (!token) {
-    next(
+    return next(
       new AppError('You are not logged in! Please log in to get access.', 401),
     );
   }
@@ -175,7 +175,11 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1) get user based on Posted email
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
-    return next(new AppError('There is no user with that email address', 404));
+    return res.status(200).json({
+      status: 'success',
+      message:
+        'If an account with that email exists, a reset link has been sent.',
+    });
   }
   // 2) Generate the random reset token
   const resetToken = user.createPasswordResetToken();

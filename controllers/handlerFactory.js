@@ -58,7 +58,6 @@ exports.getOne = (Model, popOptions) =>
         data: doc,
       },
     });
-    fff;
   });
 
 exports.getAll = (Model) =>
