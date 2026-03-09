@@ -1,4 +1,4 @@
-# Natours API
+# Tour Booking API
 
 ![Node.js](https://img.shields.io/badge/Node.js-v14+-green.svg)
 ![Express](https://img.shields.io/badge/Express-v4.21-lightgrey.svg)
@@ -7,7 +7,7 @@
 
 > A robust, RESTful API built with Node.js, Express, and MongoDB for managing tour bookings.
 
-Natours provides comprehensive backend services for tour management, user authentication, reviews, and booking operations. Designed with security, performance, and best practices in mind, this project serves as a strong foundation for a complete tour booking platform.
+Tour Booking App provides comprehensive backend services for tour management, user authentication, reviews, and booking operations. Designed with security, performance, and best practices in mind, this project serves as a strong foundation for a complete tour booking platform.
 
 ## 🚀 Key Features
 
@@ -158,8 +158,8 @@ Comprehensive and interactive API documentation is published on Postman. This do
    PORT=8000
 
    # Database Access
-   DATABASE=mongodb+srv://<username>:<PASSWORD>@cluster.mongodb.net/natours
-   DATABASE_LOCAL=mongodb://localhost:27017/natours
+   DATABASE=mongodb+srv://<username>:<PASSWORD>@cluster.mongodb.net/tour-booking-app
+   DATABASE_LOCAL=mongodb://localhost:27017/tour-booking-app
    DATABASE_PASSWORD=your_database_password
 
    # JWT Configuration
