@@ -22,6 +22,9 @@ exports.getMe = (req, res, next) => {
 
 //Updating the curently Authanticated User
 exports.updateMe = catchAsync(async (req, res, next) => {
+  console.log('updateMe function called');
+  console.log(req.file);
+  console.log(req.body);
   //Create error if User POSTs Password Date
   if (req.body.password || req.body.passwordConfirm) {
     return next(

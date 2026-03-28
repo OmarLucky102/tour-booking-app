@@ -1,7 +1,11 @@
 const express = require('express');
+const multer = require('multer');
 const userController = require('../controllers/userController');
 const authController = require('./../controllers/authController');
 const reviewController = require('./../controllers/reviewController');
+
+//config multer upload middleware
+const upload = multer({ dest: 'public/img/users' });
 
 const router = express.Router();
 
@@ -21,7 +25,8 @@ router.use(authController.protect);
 
 router.patch('/updateMyPassword', authController.updatePassword);
 router.get('/me', userController.getMe, userController.getUser);
-router.patch('/updateMe', userController.updateMe);
+//photo is the name of the filed in the database
+router.patch('/updateMe', upload.single('photo'), userController.updateMe);
 router.delete('/deleteMe', userController.deleteMe);
 //Follow the REST
 
