@@ -184,15 +184,6 @@ Comprehensive and interactive API documentation is published on Postman. This do
    npm run start:prod
    ```
 
-## 🗺️ Roadmap & Future Enhancements
-
-This project is actively being developed. Planned major features include:
-
-- [ ] **Admin Dashboard:** A robust server-side rendered web interface (using Pug & Parcel) exclusively for administrators to manage tours, user accounts, and reviews efficiently.
-- [ ] **Advanced Access Control:** Fully refined role-based access to the dashboard and internal configuration.
-- [ ] **Payment Methods Integration:** Secure integration with Stripe to handle real payment processing for tour bookings safely.
-- [ ] Booking system finalization with automated invoice emails.
-
 ## 📄 License & Author
 
 - **Author:** Omar AbdElaty
