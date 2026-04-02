@@ -1,8 +1,38 @@
 //The handlers gose here
+const multer = require('multer');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const factory = require('./../controllers/handlerFactory');
+
+const multerStorage = multer.diskStorage({
+  //call backfunction like nextin ecpress
+  destination: (req, file, cb) => {
+    cb(null, 'public/img/users');
+  },
+  filename: (req, file, cb) => {
+    //user- id - timestamp - extenstion
+    const ext = file.mimetype.split('/')[1];
+    cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
+  },
+});
+
+//just make sure this is image if yes pass true to the cb func
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new AppError('Not an image! Please upload only image', 400), false);
+  }
+};
+
+//config multer upload middleware
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
+
+exports.uploadUserPhoto = upload.single('photo');
 
 const filterObj = (obj, ...allowedFields) => {
   //loop throw the object and For each element check if it's the allowed fields or not
@@ -41,6 +71,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   // await user.save();
   //filtered out unwanted field named that are not allowed to be upldated
   const filteredBody = filterObj(req.body, 'name', 'email');
+  if (req.file) filteredBody.photo = req.file.filename;
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,
     runValidators: true,

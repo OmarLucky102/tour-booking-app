@@ -62,80 +62,80 @@ const userSchema = new mongoose.Schema({
     select: false,
   },
 });
-userSchema.pre('save', async function (next) {
-  //Only run this function if password was actualy modified
-  if (!this.isModified('password')) return next();
+// userSchema.pre('save', async function (next) {
+//   //Only run this function if password was actualy modified
+//   if (!this.isModified('password')) return next();
 
-  //hash the password with cost of 13
-  this.password = await bcrypt.hash(this.password, 13);
+//   //hash the password with cost of 13
+//   this.password = await bcrypt.hash(this.password, 13);
 
-  //delete passwordConfirm field
-  this.passwordConfirm = undefined;
-  // Only set passwordChangedAt if the user is NOT new
-  // if (!this.isNew) {
-  //   this.passwordChangedAt = Date.now() - 1000;
-  // }
-  next();
-});
+//   //delete passwordConfirm field
+//   this.passwordConfirm = undefined;
+//   // Only set passwordChangedAt if the user is NOT new
+//   // if (!this.isNew) {
+//   //   this.passwordChangedAt = Date.now() - 1000;
+//   // }
+//   next();
+// });
 
-userSchema.pre('save', function (next) {
-  if (!this.isModified('password') || this.isNew) return next();
+// userSchema.pre('save', function (next) {
+//   if (!this.isModified('password') || this.isNew) return next();
 
-  this.passwordChangedAt = Date.now() - 1000;
-  next();
-});
+//   this.passwordChangedAt = Date.now() - 1000;
+//   next();
+// });
 
-//Step pefore query
-userSchema.pre(/^find/, function (next) {
-  //This point to the cureent query
-  this.find({ active: { $ne: false } });
-  next();
-});
+// //Step pefore query
+// userSchema.pre(/^find/, function (next) {
+//   //This point to the cureent query
+//   this.find({ active: { $ne: false } });
+//   next();
+// });
 
-//instance method will be avilable on all documents of a certian collection
-//return true if two passwords are the same
-userSchema.methods.correctPassword = async function (
-  candidatePassword,
-  userPassword,
-) {
-  return await bcrypt.compare(candidatePassword, userPassword);
-};
+// //instance method will be avilable on all documents of a certian collection
+// //return true if two passwords are the same
+// userSchema.methods.correctPassword = async function (
+//   candidatePassword,
+//   userPassword,
+// ) {
+//   return await bcrypt.compare(candidatePassword, userPassword);
+// };
 
-userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
-  if (this.passwordChangedAt) {
-    const changedTimestamp = parseInt(
-      this.passwordChangedAt.getTime() / 1000,
-      10,
-    );
+// userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+//   if (this.passwordChangedAt) {
+//     const changedTimestamp = parseInt(
+//       this.passwordChangedAt.getTime() / 1000,
+//       10,
+//     );
 
-    console.log('Password changed at:', this.passwordChangedAt);
-    console.log('Token issued at:', JWTTimestamp);
+//     console.log('Password changed at:', this.passwordChangedAt);
+//     console.log('Token issued at:', JWTTimestamp);
 
-    //date of issued token < changed time stamp
-    return JWTTimestamp < changedTimestamp;
-  }
+//     //date of issued token < changed time stamp
+//     return JWTTimestamp < changedTimestamp;
+//   }
 
-  //False mean NOT Changed
-  return false;
-};
-// Inside userModel (instance method — don’t use an arrow function because we need "this")
-userSchema.methods.createPasswordResetToken = function () {
-  // 1) Generate a random (plain) token — randomBytes(32) => 32 bytes => 64 hex characters
-  const resetToken = crypto.randomBytes(32).toString('hex');
+//   //False mean NOT Changed
+//   return false;
+// };
+// // Inside userModel (instance method — don’t use an arrow function because we need "this")
+// userSchema.methods.createPasswordResetToken = function () {
+//   // 1) Generate a random (plain) token — randomBytes(32) => 32 bytes => 64 hex characters
+//   const resetToken = crypto.randomBytes(32).toString('hex');
 
-  // 2) Store a *hashed* version of the token in the database — never store the plain token
-  this.passwordResetToken = crypto
-    .createHash('sha256')
-    .update(resetToken)
-    .digest('hex');
+//   // 2) Store a *hashed* version of the token in the database — never store the plain token
+//   this.passwordResetToken = crypto
+//     .createHash('sha256')
+//     .update(resetToken)
+//     .digest('hex');
 
-  console.log({ resetToken }, this.passwordResetToken);
-  // 3) Set the token expiration time (10 minutes from now)
-  this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // in milliseconds
+//   console.log({ resetToken }, this.passwordResetToken);
+//   // 3) Set the token expiration time (10 minutes from now)
+//   this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // in milliseconds
 
-  // 4) Return the plain token so it can be sent to the user via email
-  return resetToken;
-};
+//   // 4) Return the plain token so it can be sent to the user via email
+//   return resetToken;
+// };
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
