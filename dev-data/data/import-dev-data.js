@@ -41,6 +41,7 @@ const importData = async () => {
   try {
     await Tour.create(tours);
     await User.create(users, { validateBeforeSave: false });
+    // await User.collection.insertMany(users);
     await Review.create(reviews);
     console.log('Data Successfully Loaded');
     process.exit();

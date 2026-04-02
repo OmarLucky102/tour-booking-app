@@ -13,7 +13,7 @@ const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const signupForm = document.querySelector('.form--signup');
 
-// DALIGATION
+// DALIGATION:
 if (mapBox) {
   const locations = JSON.parse(mapBox.dataset.locations);
   displayMap(locations);
@@ -28,6 +28,8 @@ if (loginForm) {
   });
 }
 
+//where we send the data to be updated with the server
+// <selecto form the form and seend to update settings>
 if (signupForm) {
   signupForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -44,9 +46,13 @@ if (logOutBtn) logOutBtn.addEventListener('click', logout);
 if (userDataForm) {
   userDataForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    updateSettings({ name, email }, 'data'); //object
+    const form = new FormData();
+    form.append('name', document.getElementById('name').value);
+    form.append('email', document.getElementById('email').value);
+    form.append('photo', document.getElementById('photo').files[0]);
+    console.log(form);
+
+    updateSettings(form, 'data'); //object
   });
 }
 if (userPasswordForm) {

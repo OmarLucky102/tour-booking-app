@@ -1,22 +1,26 @@
 //The handlers gose here
 const multer = require('multer');
+const sharp = require('sharp');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const factory = require('./../controllers/handlerFactory');
 
-const multerStorage = multer.diskStorage({
-  //call backfunction like nextin ecpress
-  destination: (req, file, cb) => {
-    cb(null, 'public/img/users');
-  },
-  filename: (req, file, cb) => {
-    //user- id - timestamp - extenstion
-    const ext = file.mimetype.split('/')[1];
-    cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
-  },
-});
+//local storage
+// const multerStorage = multer.diskStorage({
+//   //call backfunction like nextin ecpress
+//   destination: (req, file, cb) => {
+//     cb(null, 'public/img/users');
+//   },
+//   filename: (req, file, cb) => {
+//     //user- id - timestamp - extenstion
+//     const ext = file.mimetype.split('/')[1];
+//     cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
+//   },
+// });
 
+// Image Stored as a buffer to use it latter
+const multerStorage = multer.memoryStorage();
 //just make sure this is image if yes pass true to the cb func
 const multerFilter = (req, file, cb) => {
   if (file.mimetype.startsWith('image')) {
@@ -33,6 +37,22 @@ const upload = multer({
 });
 
 exports.uploadUserPhoto = upload.single('photo');
+
+exports.resizeUserPhoto = (req, res, next) => {
+  if (!req.file) return next();
+
+  //set it like this cause we need the filename in other middware funcs
+  req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+
+  //get photo from buffer do operations on it
+  sharp(req.file.buffer)
+    .resize(500, 500)
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(`public/img/users/${req.file.filename}`);
+
+  next();
+};
 
 const filterObj = (obj, ...allowedFields) => {
   //loop throw the object and For each element check if it's the allowed fields or not
@@ -72,6 +92,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   //filtered out unwanted field named that are not allowed to be upldated
   const filteredBody = filterObj(req.body, 'name', 'email');
   if (req.file) filteredBody.photo = req.file.filename;
+
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,
     runValidators: true,

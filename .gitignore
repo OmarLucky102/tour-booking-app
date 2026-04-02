@@ -30,3 +30,6 @@ build/
 .tmp/
 temp/
 /.parcel-cache/
+.cache/
+.parcel-cache/
+dist/

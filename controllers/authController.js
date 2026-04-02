@@ -23,11 +23,11 @@ const createSendToken = (user, statusCode, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
     ),
-    secure: true, //Encrypted connection HTTPs
-    httpOnly: true, //xss Cookie con't be accesed or modified any way in the browser
+    // Only send Secure cookies over HTTPS; otherwise the browser drops the jwt cookie on http://localhost
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
     sameSite: 'strict',
   };
-  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
   res.cookie('jwt', token, cookieOptions);
   //remove the pass form the output
   user.password = undefined;
