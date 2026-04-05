@@ -26,18 +26,30 @@ router
     authController.restrictTo('admin', 'lead-guide', 'guide'),
     tourController.getMonthlyPlan,
   );
-// prettier-ignore
 //end point
 router
-    .route('/')
-    .get(tourController.getAllTours)
-    .post(authController.protect,authController.restrictTo("admin","lead-guide"),tourController.createTour);
-// prettier-ignore
+  .route('/')
+  .get(tourController.getAllTours)
+  .post(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.createTour,
+  );
 router
-    .route('/:id')
-    .get(tourController.getTour)
-    .patch(authController.protect,authController.restrictTo("admin","lead-guide"),tourController.updateTour)
-    .delete(authController.protect,authController.restrictTo('admin','lead-guide'),tourController.deleteTour);
+  .route('/:id')
+  .get(tourController.getTour)
+  .patch(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.uploadTourImages,
+    tourController.resizeTourImages,
+    tourController.updateTour,
+  )
+  .delete(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.deleteTour,
+  );
 
 //we will export the router and then importe it in our main app
 module.exports = router;

@@ -1,10 +1,45 @@
 //for CRUD operations
-const { Query } = require('mongoose');
+// const { Query } = require('mongoose');
+const multer = require('multer');
+const sharp = require('sharp');
 const Tour = require('./../models/tourModel');
 const catchAsync = require('./../utils/catchAsync');
-// const AppError = require('./../utils/appError');
+const AppError = require('./../utils/appError');
 const factory = require('./../controllers/handlerFactory');
 
+// Image Stored as a buffer to use it latter
+const multerStorage = multer.memoryStorage();
+//just make sure this is image if yes pass true to the cb func
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new AppError('Not an image! Please upload only image', 400), false);
+  }
+};
+
+//config multer upload middleware
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
+
+//Produce req.files not file like Single
+exports.uploadTourImages = upload.fields([
+  //Each of the elements is object
+  { name: 'imageCover', maxCount: 1 },
+  { name: 'images', maxCount: 3 },
+]);
+
+//quick next middleware to process images <TEMP>
+exports.resizeTourImages = (req, res, next) => {
+  console.log('Content-Type:', req.headers['content-type']);
+  console.log('req.files:', req.files);
+  next();
+};
+
+//this way used if there are one field accept mutable image upload <SAME NAME>
+// upload.array('image',5)
 exports.aliasTopTours = (req, res, next) => {
   req.query.limit = '5';
   req.query.sort = '-ratingsAverage,price';
