@@ -25,8 +25,8 @@ const createSendToken = (user, statusCode, res) => {
     ),
     // Only send Secure cookies over HTTPS; otherwise the browser drops the jwt cookie on http://localhost
     secure: process.env.NODE_ENV === 'production',
-    httpOnly: true,
-    sameSite: 'strict',
+    httpOnly: true, //Encrypted connection HTTPs
+    sameSite: 'strict', //xss Cookie con't be accesed or modified any way in the browser
   };
   res.cookie('jwt', token, cookieOptions);
   //remove the pass form the output
