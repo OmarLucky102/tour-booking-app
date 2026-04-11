@@ -28,7 +28,7 @@ export const displayMap = (locations) => {
     //Add  Popup
     new mapboxgl.Popup({ offset: 30 })
       .setLngLat(loc.coordinates)
-      .setHTML(`<p>Day ${loc.day}: : ${loc.description}</p>`)
+      .setHTML(`<p>Day ${loc.day}: ${loc.description}</p>`)
       .addTo(map);
 
     // Extend The Map bounds to include the current location

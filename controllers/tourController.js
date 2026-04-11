@@ -32,11 +32,36 @@ exports.uploadTourImages = upload.fields([
 ]);
 
 //quick next middleware to process images <TEMP>
-exports.resizeTourImages = (req, res, next) => {
-  console.log('Content-Type:', req.headers['content-type']);
-  console.log('req.files:', req.files);
+exports.resizeTourImages = catchAsync(async (req, res, next) => {
+  if (!req.files.imageCover || !req.files.images) return next();
+
+  // 1) Processing The CoverImage
+  req.body.imageCover = `tour-${req.params.id}-${Date.now()}-cover.jpeg`;
+  await sharp(req.files.imageCover[0].buffer)
+    .resize(2000, 1333) //3:2 ratio
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(`public/img/tours/${req.body.imageCover}`);
+
+  // 2) Other Images loop
+  req.body.images = []; //for each iteration push image to the array
+  await Promise.all(
+    //user map to save array of all of this promisses
+    req.files.images.map(async (file, i) => {
+      const filename = `tour-${req.params.id}-${Date.now()}-${i + 1}.jpeg`;
+
+      await sharp(file.buffer)
+        .resize(2000, 1333) //3:2 ratio
+        .toFormat('jpeg')
+        .jpeg({ quality: 90 })
+        .toFile(`public/img/tours/${filename}`);
+
+      req.body.images.push(filename);
+    }),
+  );
+  console.log(req.body);
   next();
-};
+});
 
 //this way used if there are one field accept mutable image upload <SAME NAME>
 // upload.array('image',5)

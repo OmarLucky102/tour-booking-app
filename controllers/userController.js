@@ -38,21 +38,20 @@ const upload = multer({
 
 exports.uploadUserPhoto = upload.single('photo');
 
-exports.resizeUserPhoto = (req, res, next) => {
+exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
 
-  //set it like this cause we need the filename in other middware funcs
+  // 1) set it like this cause we need the filename in other middware funcs
   req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
 
-  //get photo from buffer do operations on it
-  sharp(req.file.buffer)
+  //get photo from buffer do operations on it <Return Promis>
+  await sharp(req.file.buffer)
     .resize(500, 500)
     .toFormat('jpeg')
     .jpeg({ quality: 90 })
     .toFile(`public/img/users/${req.file.filename}`);
-
   next();
-};
+});
 
 const filterObj = (obj, ...allowedFields) => {
   //loop throw the object and For each element check if it's the allowed fields or not
