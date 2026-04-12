@@ -1,27 +1,54 @@
 const nodemailer = require('nodemailer');
 
-const sendEmail = async (options) => {
-  // 1️⃣ Create a transporter
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD, // ✅ lowercase 'pass'
-    },
-  });
+//new user sighnup
+// new Email(user, url).sendWelcome();
 
-  // 2️⃣ Define email options
-  const mailOptions = {
-    from: 'Omar <omar@example.com>', // Sender
-    to: options.email, // Recipient
-    subject: options.subject, // Subject line
-    text: options.message, // Plain text
-    // html: '<h1>Hello</h1>'         // Optional HTML version
-  };
+module.exports = class Email {
+  constructor(user, url) {
+    this.to = user.email;
+    this.firstName = user.name.split(' ')[0];
+    this.url = url;
+    this.from = `Omar AbdElaty <${process.env.EMAIL_FROM}>`;
+  }
 
-  // 3️⃣ Send the email
-  await transporter.sendMail(mailOptions);
+  createTransport() {
+    if (process.env.NODE_ENV === 'production') {
+      //sendgrid for latter
+      return 1;
+    }
+    return nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+  }
+  //send Method send the actual email
+  send(template, subject) {
+    // 1) Render the HTML based on a pug template
+
+    // 2) Define Email Options
+    const mailOptions = {
+      from: `Omar AbdElaty <${process.env.EMAIL_FROM}>`, // Sender
+      to: options.email, // Recipient
+      subject: options.subject, // Subject line
+      text: options.message, // Plain text
+      // html: '<h1>Hello</h1>'         // Optional HTML version
+    };
+    // 2) Create a Transport and send Email
+  }
+  //call send function with the paramiters
+  sendWelcome() {
+    //the <template paramiter> is bug template we create
+    this.send('Welcome', 'Welcome to the Tour Booking App Family!');
+  }
 };
 
-module.exports = sendEmail;
+const sendEmail = async (options) => {};
+
+// 2️) Define email options
+
+// 3️) Send the email
+await transporter.sendMail(mailOptions);
