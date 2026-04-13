@@ -1,7 +1,6 @@
 const nodemailer = require('nodemailer');
-
-//new user sighnup
-// new Email(user, url).sendWelcome();
+const pug = require('pug');
+const htmlToText = require('html-to-text');
 
 module.exports = class Email {
   constructor(user, url) {
@@ -11,7 +10,7 @@ module.exports = class Email {
     this.from = `Omar AbdElaty <${process.env.EMAIL_FROM}>`;
   }
 
-  createTransport() {
+  newTransport() {
     if (process.env.NODE_ENV === 'production') {
       //sendgrid for latter
       return 1;
@@ -26,29 +25,30 @@ module.exports = class Email {
     });
   }
   //send Method send the actual email
-  send(template, subject) {
+  async send(template, subject) {
     // 1) Render the HTML based on a pug template
-
+    const html = pug.renderFile(
+      `${__dirname}/../../views/emails/${template}.pug`,
+      {
+        firstName: this.firstName,
+        url: this.url,
+        subject,
+      },
+    );
     // 2) Define Email Options
     const mailOptions = {
-      from: `Omar AbdElaty <${process.env.EMAIL_FROM}>`, // Sender
-      to: options.email, // Recipient
-      subject: options.subject, // Subject line
-      text: options.message, // Plain text
-      // html: '<h1>Hello</h1>'         // Optional HTML version
+      from: this.from,
+      to: this.to,
+      subject,
+      html,
+      text: htmlToText.fromString(html),
     };
-    // 2) Create a Transport and send Email
+    // 3) Create a Transport and send Email
+    await this.newTransport().sendMail(mailOptions);
   }
   //call send function with the paramiters
-  sendWelcome() {
+  async sendWelcome() {
     //the <template paramiter> is bug template we create
-    this.send('Welcome', 'Welcome to the Tour Booking App Family!');
+    await this.send('Welcome', 'Welcome to the Tour Booking App Family!');
   }
 };
-
-const sendEmail = async (options) => {};
-
-// 2️) Define email options
-
-// 3️) Send the email
-await transporter.sendMail(mailOptions);
