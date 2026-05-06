@@ -7,7 +7,7 @@ const router = express.Router();
 
 //special endpoint don't follow REST archetcture
 //Can't get data from sighup or patch or update it only post data
-router.post('/signup', authController.singup);
+router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 router.get('/logout', authController.logout);
 

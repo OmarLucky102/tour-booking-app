@@ -40,11 +40,11 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
-exports.singup = catchAsync(async (req, res, next) => {
+exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create(req.body);
-  const url = `${req.protocol}://${req.get('host')}me`;
+  const url = `${req.protocol}://${req.get('host')}/me`;
   console.log(url);
-  await new Email(newUser,url).sendWelcome();
+  await new Email(newUser, url).sendWelcome();
   createSendToken(newUser, 201, res);
 });
 exports.login = catchAsync(async (req, res, next) => {

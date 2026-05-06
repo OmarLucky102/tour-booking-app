@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 const pug = require('pug');
-const htmlToText = require('html-to-text');
+const { convert } = require('html-to-text');
 
 module.exports = class Email {
   constructor(user, url) {
@@ -27,21 +27,18 @@ module.exports = class Email {
   //send Method send the actual email
   async send(template, subject) {
     // 1) Render the HTML based on a pug template
-    const html = pug.renderFile(
-      `${__dirname}/../../views/emails/${template}.pug`,
-      {
-        firstName: this.firstName,
-        url: this.url,
-        subject,
-      },
-    );
+    const html = pug.renderFile(`${__dirname}/../views/email/${template}.pug`, {
+      firstName: this.firstName,
+      url: this.url,
+      subject,
+    });
     // 2) Define Email Options
     const mailOptions = {
       from: this.from,
       to: this.to,
       subject,
       html,
-      text: htmlToText.fromString(html),
+      text: convert(html),
     };
     // 3) Create a Transport and send Email
     await this.newTransport().sendMail(mailOptions);
@@ -49,6 +46,6 @@ module.exports = class Email {
   //call send function with the paramiters
   async sendWelcome() {
     //the <template paramiter> is bug template we create
-    await this.send('Welcome', 'Welcome to the Tour Booking App Family!');
+    await this.send('welcome', 'Welcome to the Tour Booking App Family!');
   }
 };
