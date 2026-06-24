@@ -48,4 +48,10 @@ module.exports = class Email {
     //the <template paramiter> is bug template we create
     await this.send('welcome', 'Welcome to the Tour Booking App Family!');
   }
+  async sendPasswordReset() {
+    await this.send(
+      'passwordReset',
+      'Your password reset token (valid for only 10 minutes) ',
+    );
+  }
 };
